@@ -10,6 +10,8 @@ import SwiftUI
 struct OnboardingView: View {
     
     @AppStorage(StorageKeys.isOnboardingViewActive.key) var isOnboardingViewActive = true
+    private let buttonGetStartedWidth = UIScreen.main.bounds.width - 80
+    @State private var draggableCircleOffset: CGFloat = 0
     
     var body: some View {
         
@@ -62,7 +64,7 @@ struct OnboardingView: View {
                     HStack {
                         Capsule()
                             .fill(Color("ColorRed"))
-                            .frame(width: 80)
+                            .frame(width: self.draggableCircleOffset + 80)
 
                         Spacer()
                     }
@@ -85,15 +87,29 @@ struct OnboardingView: View {
                         }
                         .foregroundColor(.white)
                         .frame(width: 80, height: 80, alignment: .center)
-                        .onTapGesture {
-                            self.isOnboardingViewActive = false
-                        }
+                        .offset(x: self.draggableCircleOffset)
+                        .gesture(
+                            DragGesture()
+                                .onChanged({ gestureValue in
+                                    
+                                    if(gestureValue.translation.width > 0 && gestureValue.translation.width <= self.buttonGetStartedWidth - 80) {
+                                        self.draggableCircleOffset = gestureValue.translation.width
+                                    }
+                                })
+                                .onEnded({ gestureValue in
+                                    if(gestureValue.translation.width > self.buttonGetStartedWidth / 2) {
+                                        self.isOnboardingViewActive = false
+                                    } else {
+                                        self.draggableCircleOffset = 0
+                                    }
+                                })
+                        )
                         
                         Spacer()
                     }
                     
                 }
-                .frame(height: 80, alignment: .center)
+                .frame(width: self.buttonGetStartedWidth, height: 80, alignment: .center)
                 .padding()
                 
                 
