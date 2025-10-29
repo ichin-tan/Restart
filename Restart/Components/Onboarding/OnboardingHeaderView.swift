@@ -14,7 +14,7 @@ struct OnboardingHeaderView: View {
     var body: some View {
         VStack(spacing: 10) {
             
-            Text("Share.")
+            Text("Share")
                 .font(.system(size: 60))
                 .fontWeight(.heavy)
                 .foregroundColor(.white)

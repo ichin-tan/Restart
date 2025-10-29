@@ -90,7 +90,7 @@ struct DraggableCircleView: View {
             self.isAnimating = true
         }
         .frame(width: self.buttonGetStartedWidth, height: 80, alignment: .center)
-        .padding()
+        .padding(.top, 30)
         .opacity(isAnimating ? 1 : 0)
         .offset(y: isAnimating ? 0 : 40)
         .animation(.easeOut(duration: 1), value: isAnimating)

@@ -46,6 +46,7 @@ struct HomeView: View {
             Button {
                 withAnimation {
                     self.isOnboardingViewActive = true
+                    AudioPlayer.shared.playSound(title: "success", type: "m4a")
                 }
             } label: {
                 Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
