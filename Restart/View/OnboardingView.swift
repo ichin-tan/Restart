@@ -12,15 +12,93 @@ struct OnboardingView: View {
     @AppStorage(StorageKeys.isOnboardingViewActive.key) var isOnboardingViewActive = true
     
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Onboarding View")
-                .font(.largeTitle)
+        
+        ZStack {
+            Color("ColorBlue")
+                .ignoresSafeArea(.all, edges: .all)
             
-            Button {
-                self.isOnboardingViewActive = false
-            } label: {
-                Text("Start")
-            }
+            VStack(spacing: 20) {
+                
+                Spacer()
+
+                //MARK: - Header
+                
+                OnboardingHeaderView()
+                
+                //MARK: - Center
+                
+                ZStack {
+                    RingView(color: .white, opacity: 0.2)
+                    
+                    Image("character-1")
+                        .resizable()
+                        .scaledToFit()
+                } //: End of center
+                
+                //MARK: - Footer
+                
+                ZStack {
+                    
+                    // BACKGROUND
+                    
+                    Capsule()
+                        .fill(.white.opacity(0.2))
+                    
+                    Capsule()
+                        .fill(.white.opacity(0.2))
+                        .padding(10)
+                    
+                    
+                    // TEXT
+                    
+                    Text("Get Started")
+                        .foregroundColor(.white)
+                        .font(.system(.title3, design: .rounded))
+                        .fontWeight(.bold)
+                        .offset(x: 20)
+                    
+                    // Dynamic capsule (Width Based on how much user drags)
+                    
+                    HStack {
+                        Capsule()
+                            .fill(Color("ColorRed"))
+                            .frame(width: 80)
+
+                        Spacer()
+                    }
+                    
+                    // Draggable Circle
+                    
+                    
+                    HStack {
+                        ZStack {
+                            Circle()
+                                .fill(Color("ColorRed"))
+                            
+                            Circle()
+                                .fill(.black.opacity(0.2))
+                                .padding(7)
+                            
+                            Image(systemName: "chevron.right.2")
+                                .font(.system(size: 24))
+                                .fontWeight(.bold)
+                        }
+                        .foregroundColor(.white)
+                        .frame(width: 80, height: 80, alignment: .center)
+                        .onTapGesture {
+                            self.isOnboardingViewActive = false
+                        }
+                        
+                        Spacer()
+                    }
+                    
+                }
+                .frame(height: 80, alignment: .center)
+                .padding()
+                
+                
+                Spacer()
+            } //: VStack
         }
     }
 }
