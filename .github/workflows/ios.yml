@@ -1,0 +1,52 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build iOS App
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '16.1'
+        
+    - name: Build for iOS
+      run: |
+        xcodebuild clean build \
+          -project "Restart.xcodeproj" \
+          -scheme "Restart" \
+          -destination "generic/platform=iOS" \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO
+
+  test:
+    name: Run Tests on iOS 26.0.1
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '16.1'
+        
+    - name: Run tests
+      run: |
+        xcodebuild test \
+          -project "Restart.xcodeproj" \
+          -scheme "Restart" \
+          -destination "platform=iOS Simulator,name=iPhone 16,OS=26.0.1" \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO
