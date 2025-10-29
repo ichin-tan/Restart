@@ -10,6 +10,7 @@ import SwiftUI
 struct OnboardingView: View {
     
     @AppStorage(StorageKeys.isOnboardingViewActive.key) var isOnboardingViewActive = true
+    @State private var isAnimating: Bool = false
     
     var body: some View {
         
@@ -33,12 +34,20 @@ struct OnboardingView: View {
                     Image("character-1")
                         .resizable()
                         .scaledToFit()
+                        .onAppear() {
+                            self.isAnimating = true
+                        }
+                        .opacity(self.isAnimating ? 1 : 0)
+                        .animation(.easeOut(duration: 1), value: self.isAnimating)
+
                 } //: End of center
                 
                 //MARK: - Footer
                 
-                DraggableCircleView {
-                    self.isOnboardingViewActive = false
+                DraggableCircleView() {
+                    withAnimation(Animation.easeOut(duration: 1)) {
+                        self.isOnboardingViewActive = false
+                    }
                 }
                 
                 Spacer()

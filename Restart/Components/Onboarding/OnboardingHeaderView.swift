@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct OnboardingHeaderView: View {
+    
+    @State var isAnimating: Bool = false
+    
     var body: some View {
         VStack(spacing: 10) {
             
@@ -28,6 +31,12 @@ struct OnboardingHeaderView: View {
             .multilineTextAlignment(.center)
             .padding(.horizontal, 10)
         }
+        .onAppear() {
+            self.isAnimating = true
+        }
+        .opacity(self.isAnimating ? 1 : 0)
+        .offset(y: self.isAnimating ? 0 : -40)
+        .animation(.easeOut(duration: 1), value: self.isAnimating)
     }
 }
 

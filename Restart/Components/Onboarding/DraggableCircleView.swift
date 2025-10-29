@@ -12,6 +12,7 @@ struct DraggableCircleView: View {
     private let buttonGetStartedWidth = UIScreen.main.bounds.width - 80
     @State private var draggableCircleOffset: CGFloat = 0
     var action: (() -> ())? = nil
+    @State private var isAnimating: Bool = false
     
     var body: some View {
         ZStack {
@@ -85,8 +86,14 @@ struct DraggableCircleView: View {
             }
             
         }
+        .onAppear() {
+            self.isAnimating = true
+        }
         .frame(width: self.buttonGetStartedWidth, height: 80, alignment: .center)
         .padding()
+        .opacity(isAnimating ? 1 : 0)
+        .offset(y: isAnimating ? 0 : 40)
+        .animation(.easeOut(duration: 1), value: isAnimating)
     }
 }
 
