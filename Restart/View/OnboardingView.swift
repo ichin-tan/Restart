@@ -93,6 +93,7 @@ struct OnboardingView: View {
                         self.hapticFeedback.notificationOccurred(.success)
                     }
                 }
+                .offset(y: 30)
                 
                 Spacer()
             } //: VStack
